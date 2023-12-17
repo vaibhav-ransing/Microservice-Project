@@ -17,6 +17,9 @@ public class OrderServiceImpl implements OrderService{
     private OrderRepository orderRepository;
     @Override
     public Long placeOrder(OrderRequest orderRequest) {
+        // Order entity -> Save data with status order created
+        // Product service -> Block Products (Reduce the Quantity)
+        // Payment Service -> Payments -> Success -> Complete, else Cancel.
 
         Order order = Order
                 .builder()
