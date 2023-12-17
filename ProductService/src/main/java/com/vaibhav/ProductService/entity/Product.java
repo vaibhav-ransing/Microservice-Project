@@ -21,6 +21,6 @@ public class Product {
     @Column(name = "PRICE")
     private long price;
 
-    @Column(name = "SQUANTITY")
+    @Column(name = "QUANTITY")
     private long quantity;
 }

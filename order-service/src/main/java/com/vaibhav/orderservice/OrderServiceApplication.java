@@ -1,14 +1,13 @@
-package com.vaibhav.ProductService;
+package com.vaibhav.orderservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProductServiceApplication {
+public class OrderServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProductServiceApplication.class, args);
+		SpringApplication.run(OrderServiceApplication.class, args);
 	}
 
 }
-
