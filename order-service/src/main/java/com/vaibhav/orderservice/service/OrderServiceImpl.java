@@ -1,6 +1,7 @@
 package com.vaibhav.orderservice.service;
 
 import com.vaibhav.orderservice.entity.Order;
+import com.vaibhav.orderservice.external.client.ProductService;
 import com.vaibhav.orderservice.model.OrderRequest;
 import com.vaibhav.orderservice.repository.OrderRepository;
 import lombok.extern.log4j.Log4j2;
@@ -15,11 +16,17 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private ProductService productService;
+
     @Override
     public Long placeOrder(OrderRequest orderRequest) {
         // Order entity -> Save data with status order created
         // Product service -> Block Products (Reduce the Quantity)
         // Payment Service -> Payments -> Success -> Complete, else Cancel.
+
+        productService.reduceQuantity(orderRequest.getProductId(), orderRequest.getQuantity());
 
         Order order = Order
                 .builder()
