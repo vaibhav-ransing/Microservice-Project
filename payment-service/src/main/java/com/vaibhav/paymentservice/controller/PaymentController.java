@@ -2,6 +2,7 @@ package com.vaibhav.paymentservice.controller;
 
 
 import com.vaibhav.paymentservice.model.PaymentRequest;
+import com.vaibhav.paymentservice.model.PaymentResponse;
 import com.vaibhav.paymentservice.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,4 +23,10 @@ public class PaymentController {
         );
     }
 
+    @GetMapping("/{orderId}")
+    public ResponseEntity<PaymentResponse> getPaymentDetailsByOrderId(@PathVariable("orderId") long paymentId){
+        return new ResponseEntity<>(
+                paymentService.getPaymentDetailsByOrderId(paymentId), HttpStatus.OK
+        );
+    }
 }

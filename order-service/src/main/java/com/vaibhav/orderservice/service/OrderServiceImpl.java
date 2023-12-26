@@ -1,20 +1,25 @@
 package com.vaibhav.orderservice.service;
 
 import com.vaibhav.orderservice.entity.Order;
+import com.vaibhav.orderservice.exception.OrderNotFoundException;
 import com.vaibhav.orderservice.external.client.PaymentService;
 import com.vaibhav.orderservice.external.client.ProductService;
 import com.vaibhav.orderservice.external.request.PaymentRequest;
+import com.vaibhav.orderservice.external.response.PaymentResponse;
+import com.vaibhav.orderservice.external.response.ProductResponse;
 import com.vaibhav.orderservice.model.OrderRequest;
+import com.vaibhav.orderservice.model.OrderResponse;
 import com.vaibhav.orderservice.repository.OrderRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.Instant;
 
 @Service
 @Log4j2
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
@@ -22,9 +27,11 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private ProductService productService;
 
-
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public Long placeOrder(OrderRequest orderRequest) {
@@ -45,7 +52,7 @@ public class OrderServiceImpl implements OrderService{
                 .orderStatus("CREATED")
                 .build();
         order = orderRepository.save(order);
-        log.info("Order places successfully with Order Id = "+ order.getId());
+        log.info("Order places successfully with Order Id = " + order.getId());
 
 
         log.info("Calling payment service to complete payment");
@@ -56,10 +63,40 @@ public class OrderServiceImpl implements OrderService{
                 .referenceNumber("123")
                 .paymentMode(orderRequest.getPaymentMode())
                 .build();
-        log.info("Payment request completed for orderId"+ paymentRequest.getOrderId());
+        log.info("Payment request completed for orderId" + paymentRequest.getOrderId());
         paymentService.doPayment(paymentRequest);
 
 
         return order.getId();
     }
+
+    @Override
+    public OrderResponse getOrderById(long orderId) {
+
+        log.info("Get Order details for orderId = " + orderId);
+        Order order = orderRepository
+                .findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("Order not found for orderId = " + orderId));
+
+        log.info("Get product details for productId = "+ order.getProductId());
+        ProductResponse productResponse = restTemplate.getForObject(
+                "http://PRODUCT-SERVICE/product/" + order.getProductId(), ProductResponse.class
+        );
+
+
+        log.info("Get payment details for orderId = "+ order.getId());
+        PaymentResponse paymentResponse = paymentService.getPaymentDetailsByOrderId(orderId).getBody();
+
+
+        return OrderResponse
+                .builder()
+                .orderStatus(order.getOrderStatus())
+                .amount(order.getAmount())
+                .orderDate(order.getOrderDate())
+                .orderId(order.getId())
+                .productDetails(productResponse)
+                .paymentDetails(paymentResponse)
+                .build();
+    }
 }
+

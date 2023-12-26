@@ -20,5 +20,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return new ErrorResponse(HttpStatus.BAD_REQUEST, exception.getMessage());
     }
 
+    @ExceptionHandler(OrderNotFoundException.class)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse OrderNotFoundException(OrderNotFoundException exception){
+        return new ErrorResponse(HttpStatus.NOT_FOUND, exception.getMessage());
+    }
 
 }
