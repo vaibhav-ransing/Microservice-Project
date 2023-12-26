@@ -10,8 +10,7 @@ import lombok.*;
 public class OrderRequest {
 
     private long productId;
-    private long totalAmount;
     private long quantity;
-
+    private long totalAmount;
     private PaymentMode paymentMode;
 }

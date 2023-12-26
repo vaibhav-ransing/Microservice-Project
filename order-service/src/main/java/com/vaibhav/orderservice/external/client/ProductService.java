@@ -13,4 +13,5 @@ public interface ProductService {
 
     @PutMapping("/reduceQuantity/{id}")
     ResponseEntity<Void> reduceQuantity(@PathVariable("id") long productId, @RequestParam long quantity);
+
 }
