@@ -24,6 +24,18 @@ spring:
     import:
       configserver: http://localhost:9296
 
+resilience4j.circuitbreaker:
+  instances:
+    external:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      slidingWindowType: COUNT_BASED
+      minimumNumberOfCalls: 20
+      waitDurationInOpenState: 50s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+
 #eureka:
 #  instance:
 #    prefer-ip-address: true
@@ -31,4 +43,4 @@ spring:
 #    fetch-registry: true
 #    register-with-eureka: true
 #    service-url:
-#      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+#      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka} -D -p6379
