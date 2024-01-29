@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 @EnableFeignClients
@@ -37,7 +38,7 @@ public class OrderServiceApplication {
     @LoadBalanced
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setInterceptors(Arrays.asList(new RestTemplateInterceptor(
+        restTemplate.setInterceptors(List.of(new RestTemplateInterceptor(
                 clientManager(clientRegistrationRepository, oAuth2AuthorizedClientRepository)
         )));
         return restTemplate;

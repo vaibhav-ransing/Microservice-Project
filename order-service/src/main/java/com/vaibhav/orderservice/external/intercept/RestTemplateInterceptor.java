@@ -9,11 +9,12 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
 
     @Autowired
-    private OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager;
+    final OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager;
 
     public RestTemplateInterceptor(OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager){
         this.oAuth2AuthorizedClientManager = oAuth2AuthorizedClientManager;
@@ -22,11 +23,11 @@ public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
 
-        request.getHeaders().add("Authorizaiton", "Bearer" +
-                oAuth2AuthorizedClientManager.authorize(OAuth2AuthorizeRequest
-                        .withClientRegistrationId("internal-client")
+        request.getHeaders().add("Authorization", "Bearer " +
+                Objects.requireNonNull(oAuth2AuthorizedClientManager.authorize(OAuth2AuthorizeRequest
+                                .withClientRegistrationId("internal-client")
                                 .principal("internal")
-                        .build())
+                                .build()))
                         .getAccessToken().getTokenValue()
                 );
 

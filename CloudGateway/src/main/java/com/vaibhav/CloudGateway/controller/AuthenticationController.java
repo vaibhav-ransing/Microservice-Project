@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,7 +32,7 @@ public class AuthenticationController {
                 .userId(oidcUser.getEmail())
                 .accessToken(client.getAccessToken().getTokenValue())
                 .refreshToken(client.getAccessToken().getTokenValue())
-                .expiresAt(client.getAccessToken().getExpiresAt().getEpochSecond())
+                .expiresAt(Objects.requireNonNull(client.getAccessToken().getExpiresAt()).getEpochSecond())
                 .authorityList(oidcUser.getAuthorities()
                         .stream()
                         .map(GrantedAuthority::getAuthority)
@@ -39,5 +40,6 @@ public class AuthenticationController {
                 )
                 .build();
         return new ResponseEntity<>(authenticationResponse, HttpStatus.OK);
+
     }
 }

@@ -77,14 +77,14 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository
                 .findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found for orderId = " + orderId));
+            log.info("Get product details for productId = " + order.getProductId());
+            ProductResponse productResponse = restTemplate.getForObject(
+                    "http://PRODUCT-SERVICE/product/" + order.getProductId(), ProductResponse.class
+            );
 
-        log.info("Get product details for productId = "+ order.getProductId());
-        ProductResponse productResponse = restTemplate.getForObject(
-                "http://PRODUCT-SERVICE/product/" + order.getProductId(), ProductResponse.class
-        );
 
 
-        log.info("Get payment details for orderId = "+ order.getId());
+        log.info("Get payment details for orderId = " + order.getId());
         PaymentResponse paymentResponse = paymentService.getPaymentDetailsByOrderId(orderId).getBody();
 
 

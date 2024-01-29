@@ -1,4 +1,3 @@
-
 #spring.datasource.url=jdbc:mysql://localhost:3306/your_database_name
 #spring.datasource.username=root
 #spring.datasource.password=root
@@ -19,7 +18,6 @@ spring:
       ddl-auto: update # You can set this to validate, create, create-drop, none, etc.
   application:
     name: ORDER-SERVICE
-
   config:
     import:
       configserver: http://localhost:9296
@@ -28,18 +26,24 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://dev-23254011.okta.com/oauth2/default
-        client:
-          registration:
-            internal-client:
-              provider: okta
-              authorization-grant-type: client_credentials
-              scope: internal
-              client-id: 0oae7te3ey7rwr2Yb5d7
-              client-secret: G0mLhe07ytd0myoSPFQxJ3tPdkyINjZuuKxDhLD_Zgfx6DMBB9aAGMWHizT6PS-L
-          provider:
-            okta:
-              issuer-uri: https://dev-23254011.okta.com/oauth2/default
+          issuer-uri: https://dev-66170542.okta.com/oauth2/default
+      client:
+        registration:
+          internal-client:
+            provider: okta
+            authorization-grant-type: client_credentials
+            scope: internal
+            client-id: 0oaepd7oinwlQwulD5d7
+            client-secret: JGus1TQp6Iib_QzxjEyq0_1TB62aFISyFMLAx9nIOOf6mDZE3NytQs2SECYh1eWl
+        provider:
+          okta:
+            issuer-uri: https://dev-66170542.okta.com/oauth2/default
+
+
+okta:
+  oauth2:
+    issuer: https://dev-66170542.okta.com/oauth2/default
+
 
 resilience4j.circuitbreaker:
   instances:
@@ -48,13 +52,12 @@ resilience4j.circuitbreaker:
       slidingWindowSize: 10
       permittedNumberOfCallsInHalfOpenState: 3
       slidingWindowType: COUNT_BASED
-      minimumNumberOfCalls: 20
-      waitDurationInOpenState: 50s
-      failureRateThreshold: 50
-      eventConsumerBufferSize: 10
 
 
 
+
+
+#  mvn -Dokta.oauth2.issuer=https://https://dev-66170542.okta.com/oauth2/default/oauth2/default
 #eureka:
 #  instance:
 #    prefer-ip-address: true

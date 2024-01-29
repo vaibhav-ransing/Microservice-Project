@@ -3,9 +3,7 @@ package com.vaibhav.orderservice.external.client;
 
 import com.vaibhav.orderservice.exception.CustomException;
 import com.vaibhav.orderservice.external.request.PaymentRequest;
-import com.vaibhav.orderservice.external.response.ErrorResponse;
 import com.vaibhav.orderservice.external.response.PaymentResponse;
-import feign.Response;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
