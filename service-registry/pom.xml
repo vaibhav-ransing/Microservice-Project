@@ -51,6 +51,22 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+<!--			<plugin>-->
+<!--				<groupId>com.google.cloud.tools</groupId>-->
+<!--				<artifactId>jib-maven-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<from>-->
+<!--						<image>openjdk:18</image>-->
+<!--					</from>-->
+<!--					<to>-->
+<!--						<image>registry.hub.docker.com/vaibhav1701/service-registry</image>-->
+<!--&lt;!&ndash;						here registry.hub.docker.com needs to be authenticated so we store the user and password in our settings.xml file&ndash;&gt;-->
+<!--						<tags>${project.version}</tags>-->
+<!--					</to>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+
 		</plugins>
 	</build>
 

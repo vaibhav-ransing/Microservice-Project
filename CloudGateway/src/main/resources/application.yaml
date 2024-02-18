@@ -7,7 +7,8 @@ spring:
     name: API-GATEWAY
   config:
     import:
-      configserver: http://localhost:9296
+      configserver: http://${DOCKER_LOCAL_URL:localhost}:9296
+
   cloud:
     gateway:
       routes:
@@ -58,3 +59,13 @@ okta:
     client-id: 0oaepd7oinwlQwulD5d7
     client-secret: JGus1TQp6Iib_QzxjEyq0_1TB62aFISyFMLAx9nIOOf6mDZE3NytQs2SECYh1eWl
     scopes: openid, profile, email, offline_access
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      #      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}   // DOCKER_LOCAL_URL=host.docker.internal
+      defaultZone: http://${DOCKER_LOCAL_URL:localhost}:8761/eureka

@@ -74,6 +74,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderResponse getOrderById(long orderId) {
 
         log.info("Get Order details for orderId = " + orderId);
+
         Order order = orderRepository
                 .findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException("Order not found for orderId = " + orderId));
@@ -82,11 +83,8 @@ public class OrderServiceImpl implements OrderService {
                     "http://PRODUCT-SERVICE/product/" + order.getProductId(), ProductResponse.class
             );
 
-
-
         log.info("Get payment details for orderId = " + order.getId());
         PaymentResponse paymentResponse = paymentService.getPaymentDetailsByOrderId(orderId).getBody();
-
 
         return OrderResponse
                 .builder()

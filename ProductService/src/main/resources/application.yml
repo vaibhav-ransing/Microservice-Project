@@ -19,6 +19,16 @@ spring:
   application:
     name: PRODUCT-SERVICE
 
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      #      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}   // DOCKER_LOCAL_URL=host.docker.internal
+      defaultZone: http://${DOCKER_LOCAL_URL:localhost}:8761/eureka
+
 #  security:
 #    client:
 #      registration:
@@ -47,7 +57,7 @@ spring:
 
   config:
     import:
-      configserver: http://localhost:9296
+      configserver: http://${DOCKER_LOCAL_URL:localhost}:9296
 
 okta:
   oauth2:

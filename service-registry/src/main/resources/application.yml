@@ -4,10 +4,12 @@ server:
 
 eureka:
   instance:
-    hostname: localhost
+#    hostname: localhost
+    hostname: ${DOCKER_LOCAL_URL:localhost}
   client:
     register-with-eureka: false # This itself is a server so, don't want server to connect to itself
     fetch-registry: false
+
 
 
 #eureka:
