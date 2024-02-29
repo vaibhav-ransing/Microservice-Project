@@ -39,7 +39,29 @@ services:
     ports:
       - '8082:8082'
     depends_on:
-      - order-service
+      - cloudgateway
+    environment:
+      - DOCKER_LOCAL_URL=host.docker.internal
+      - DB_HOST=host.docker.internal
+
+  product-service:
+    image: 'vaibhav1701/product-service:latest'
+    container_name: product-service
+    ports:
+      - '8080:8080'
+    depends_on:
+      - cloudgateway
+    environment:
+      - DOCKER_LOCAL_URL=host.docker.internal
+      - DB_HOST=host.docker.internal
+
+  payment-service:
+    image: 'vaibhav1701/payment-service:latest'
+    container_name: payment-service
+    ports:
+      - '8081:8081'
+    depends_on:
+      - cloudgateway
     environment:
       - DOCKER_LOCAL_URL=host.docker.internal
       - DB_HOST=host.docker.internal
